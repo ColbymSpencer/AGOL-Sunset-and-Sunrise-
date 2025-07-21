@@ -29,6 +29,7 @@ def generate_centroids(host_gdb = r"\\floridadep\data\DRP\GIS\Codes and Scripts\
     arcpy.env.overwriteOutput = True
 
     # Calculate lat, long coordinates
+    # arcpy.management.FeatureToPoint(in_features, out_feature_class, {point_location}) # do before intersecting to ensure no edge cases with the timezone
     arcpy.management.CalculateGeometryAttributes(park_bounds, [["lon", "CENTROID_X"], ["lat", "CENTROID_Y"]], coordinate_format = "DD")
 
     # Join timezones to park boundaries
