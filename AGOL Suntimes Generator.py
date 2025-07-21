@@ -5,12 +5,14 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo  # Only available in Python 3.9+
 import pandas as pd
 
+
+### GENERATE CENTROID TABLE ####
+## table with the lat and long of the centroid of each park, the parks name, and the timezone it is in.
+
 # Worspace and settings
 arcpy.env.workspace = r'C:\Users\Spencer_C\Documents\ArcGIS\Projects\Sunrise Sunset Popups\Sunrise Sunset Popups.gdb'
 arcpy.env.overwriteOutput = True
 
-### GENERATE CENTROID TABLE ####
-## table with the lat and long of the centroid of each park, the parks name, and the timezone it is in.
 # Calculate lat, long coordinates
 arcpy.management.CalculateGeometryAttributes("ParkBounds", [["lon", "CENTROID_X"], ["lat", "CENTROID_Y"]], coordinate_format = "DD")
 
@@ -32,7 +34,7 @@ with arcpy.da.SearchCursor("PB_Timezones", ['SITE_NAME', 'lon','lat','IANA_tz'])
 
         centroid_dict[site_name] = [(lat,lon),timezone]
 
-print(centroid_dict)
+#print(centroid_dict)
 
 
 #### CALCULATE SUNSET AND SUNRISE TIMES FOR EACH PARK #####
@@ -110,12 +112,12 @@ def calculate_sunrise_sunset(lat, lon, year, month, day, timezone_str):
 
 # Get date list
 today = date.today()
-dates = [today + timedelta(days=i) for i in range(365)]
+dates = [today + timedelta(days=i) for i in range(190)]
 
 # List to hold data in
 records = []
 
-# Loop through each row in df
+# Loop through each item in centroid dictionary
 for key, val in centroid_dict.items():
     lat,lon = val[0]
     tz = val[1]
@@ -125,8 +127,6 @@ for key, val in centroid_dict.items():
         sunrise, sunset = calculate_sunrise_sunset(lat, lon, d.year, d.month, d.day, tz)
         records.append({
             'park': park,
-            #'latitude': lat,
-            #'longitude': lon,
             'timezone': tz,
             'date': f'date is |{d}',
             'sunrise': f'sunrise is |{sunrise}',
@@ -135,6 +135,32 @@ for key, val in centroid_dict.items():
 
 # Create table
 sun_df = pd.DataFrame(records)
-print(sun_df.head())
+print('Suntable successfully generated')
 
 #### USE TABLE TO OVERWRITE CURRENT DATA####
+
+# Import packages
+from arcgis.gis import GIS
+
+# Sign in to ArcGIS Online account
+gis = GIS(
+        url="https://fdep.maps.arcgis.com/home/index.html",
+        username="",
+        password=""
+    )
+
+#Get suntable from AGO
+suntable_item = gis.content.get("c1bd4c99f7904eb9b629f0bb55e170eb") # item id ('ServiceItemId') for the related table. Found in JSON for the table on AGO
+suntable_ago = suntable_item.tables[0]
+
+# Delete all the data in the suntable
+try:
+    suntable_ago.manager.truncate()
+except:
+    print('unable to truncate')
+
+# Replace all the data in the suntable
+try:
+    suntable_ago.edit_features(adds=sun_df.spatial.to_featureset())
+except:
+    print('Unbable to add new data to the related table')
