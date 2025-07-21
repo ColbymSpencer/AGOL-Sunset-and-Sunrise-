@@ -174,8 +174,8 @@ def update_AGO_table(replacement_table, item_id = "c1bd4c99f7904eb9b629f0bb55e17
     # Sign in to ArcGIS Online account
     gis = GIS(
             url="https://fdep.maps.arcgis.com/home/index.html",
-            username="FLPARKSGIS",
-            password="FLPARKSGIS1"
+            username="",
+            password=""
         )
 
     # Get suntable from AGO
@@ -195,8 +195,8 @@ def update_AGO_table(replacement_table, item_id = "c1bd4c99f7904eb9b629f0bb55e17
     except Exception as e:
         print(f'Unbable to add new data to the related table: {e}')
 
-#local_copy_gdb = r"C:\Users\Spencer_C\Documents\ArcGIS\Projects\Sunrise Sunset Popups\Sunrise Sunset Popups.gdb"
+local_copy_gdb = r"C:\Users\Spencer_C\Documents\ArcGIS\Projects\Sunrise Sunset Popups\Sunrise Sunset Popups.gdb"
 
-centroid_dict = generate_centroids()
+centroid_dict = generate_centroids(host_gdb = local_copy_gdb)
 sun_df = generate_suntable(centroid_dict, date_range = 100)
 update_AGO_table(replacement_table=sun_df)
