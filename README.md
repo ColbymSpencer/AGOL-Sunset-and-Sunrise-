@@ -8,3 +8,5 @@ The Florida Parks Service wants to give guests and staff an integrated way to vi
 * for each date in the list calculate the sunset and sunrise times in local time for the park and store them in a dataframe
 * remove all the current values in a related table published to AGO and fill the table with the newly generated values
 
+
+![US Demographic Data](https://github.com/CamrynTidsworth/Portfolio/assets/167467192/1fc9bd18-d80c-4d6d-a0ee-8b161721318f)
