@@ -9,4 +9,8 @@ The Florida Parks Service wants to give guests and staff an integrated way to vi
 * remove all the current values in a related table published to AGO and fill the table with the newly generated values
 
 
-![US Demographic Data](https://github.com/CamrynTidsworth/Portfolio/assets/167467192/1fc9bd18-d80c-4d6d-a0ee-8b161721318f)
+![Centroid](https://github.com/user-attachments/assets/25c84cff-409d-481d-9e6b-4803070b3b28)
+![Timezones Over Polygon and Centroid](https://github.com/user-attachments/assets/8c8d4765-835f-4696-aa08-adc4f89c8f5f)
+![Centroid](https://github.com/user-attachments/assets/5d6ff093-33cf-42f9-bfd5-16363ce361d8)
+![Boundary](https://github.com/user-attachments/assets/0299f885-59ed-4628-98da-5406ae4516b4)
+![Timezones](https://github.com/user-attachments/assets/8a6ed489-e63e-49aa-93b1-cce295a0d835)
