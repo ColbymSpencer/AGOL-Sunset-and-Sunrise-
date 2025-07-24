@@ -1,0 +1,10 @@
+var suntable = FeatureSetByRelationshipName($feature, "SunTable_Strings", ['date','sunrise','timezone'], false)
+var output = ''
+
+for(var record in suntable){
+  if(record.date == Text(DateOnly())){
+    output =  'Sunrise: ' + record.sunrise + ' ' + record.timezone
+    //console(feature.sunrise)
+  }
+}
+return output
